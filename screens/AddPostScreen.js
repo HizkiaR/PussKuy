@@ -25,6 +25,7 @@ const AddPostScreen = () => {
   const [uploading, setUploading] = useState(false);
   const [transferred, setTransferred] = useState(0);
   const [post, setPost] = useState(null);
+  const [status, setStatus] = useState(false);
 
   const choosePhotoFromLibrary = () => {
     ImagePicker.openPicker({
@@ -49,6 +50,7 @@ const AddPostScreen = () => {
         post: post,
         postImg: imageUrl,
         postTime: firestore.Timestamp.fromDate(new Date()),
+        status: status,
       })
       .then(() => {
         console.log('Post Added!');
@@ -101,10 +103,7 @@ const AddPostScreen = () => {
       setUploading(false);
       setImage(null);
 
-      Alert.alert(
-        'Image uploaded!',
-        'Your Image has been uploaded to the Firebase Cloud Storage Successfully',
-      );
+      Alert.alert('Image uploaded!');
       return url;
     } catch (e) {
       console.log(e);

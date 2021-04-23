@@ -101,10 +101,7 @@ const AddPostScreen = () => {
       setUploading(false);
       setImage(null);
 
-      Alert.alert(
-        'Image uploaded!',
-        'Your Image has been uploaded to the Firebase Cloud Storage Successfully',
-      );
+      Alert.alert('Image uploaded!');
       return url;
     } catch (e) {
       console.log(e);

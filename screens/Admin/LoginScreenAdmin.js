@@ -1,8 +1,8 @@
 import React, {useContext, useState} from 'react';
 import {View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
-import FormInput from '../components/FormInput';
-import FormButton from '../components/FormButton';
-import {AuthContext} from '../navigation/AuthProvider';
+import FormInput from '../../components/FormInput';
+import FormButton from '../../components/FormButton';
+import {AuthContext} from '../../navigation/AuthProvider';
 
 const LoginScreenAdmin = ({navigation}) => {
   const [email, setEmail] = useState();
@@ -12,8 +12,8 @@ const LoginScreenAdmin = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Image source={require('../assets/logo.png')} style={styles.logo} />
-      <Text style={styles.text}>WELCOME!</Text>
+      <Image source={require('../../assets/logo.png')} style={styles.logo} />
+      <Text style={styles.text}>Admin Only!</Text>
 
       <FormInput
         labelValue={email}
@@ -33,13 +33,19 @@ const LoginScreenAdmin = ({navigation}) => {
       />
       <FormButton
         buttonTitle="Sign In"
-        onPress={() => loginAdmin(email, password)}
+        onPress={() => {
+          if (email == 'admin' && password == 'admin') {
+            navigation.navigate('HomeScreenAdmin');
+          } else {
+            alert('Login Failed');
+          }
+        }}
       />
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.forgotButton}
         onPress={() => navigation.navigate('SignupAdmin')}>
         <Text style={styles.navButtonText}>Create account here!</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };

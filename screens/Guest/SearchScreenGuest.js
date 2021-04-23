@@ -9,15 +9,14 @@ import {
   Image,
 } from 'react-native';
 import database from '@react-native-firebase/database';
-import Title from '../common/Title';
-import Subtitle from '../common/Subtitle';
-import Date from '../common/Date';
+import Title from '../../common/Title';
+import Subtitle from '../../common/Subtitle';
+import Date from '../../common/Date';
 
 const SearchScreen = ({navigation}) => {
   const ref = database().ref('News/');
   const [news, setNews] = useState({});
   const [search, setSearch] = useState('');
-  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     ref.on('value', snapshot => {

@@ -23,10 +23,16 @@ const StartScreen = ({navigation}) => {
         buttonTitle="User"
         onPress={() => navigation.navigate('Login')}
       />
-      <FormButton
-        buttonTitle="Let's get started"
-        onPress={() => login(email, password)}
-      />
+      <TouchableOpacity
+        style={{marginTop: 12}}
+        onPress={() => {
+          navigation.navigate('Guest');
+          alert('Logged In as Guest');
+        }}>
+        <Text style={{fontSize: 20, fontWeight: 'bold', color: '#C43131'}}>
+          Continue Without Login
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };

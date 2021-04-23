@@ -8,14 +8,16 @@ import {
   SafeAreaView,
   Alert,
   RefreshControl,
+  TouchableOpacity,
 } from 'react-native';
 
-import PostCard from '../components/PostCard';
+import PostCardAdmin from '../../components/PostCardAdmin';
 import firestore from '@react-native-firebase/firestore';
 
-const HomeScreen = ({navigation}) => {
+const HomeScreenAdmin = ({navigation}, {item}) => {
   const [posts, setPosts] = useState(null);
   const [loading, setLoading] = useState(true);
+
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = useCallback(() => {
@@ -32,8 +34,6 @@ const HomeScreen = ({navigation}) => {
         .orderBy('postTime', 'desc')
         .get()
         .then(querySnapshot => {
-          // console.log('Total Posts: ', querySnapshot.size);
-
           querySnapshot.forEach(doc => {
             const {userId, post, postImg, postTime, status} = doc.data();
             list.push({
@@ -55,11 +55,7 @@ const HomeScreen = ({navigation}) => {
       if (loading) {
         setLoading(false);
       }
-
-      console.log('Posts: ', posts);
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   };
 
   useEffect(() => {
@@ -76,18 +72,14 @@ const HomeScreen = ({navigation}) => {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
-        renderItem={({item}) => {
-          if (item.status == true) {
-            return (
-              <PostCard
-                item={item}
-                onPress={() =>
-                  navigation.navigate('HomeProfile', {userId: item.userId})
-                }
-              />
-            );
-          }
-        }}
+        renderItem={({item}) => (
+          <PostCardAdmin
+            item={item}
+            onPress={() =>
+              navigation.navigate('HomeProfile', {userId: item.userId})
+            }
+          />
+        )}
         keyExtractor={item => item.id}
         ListHeaderComponent={ListHeader}
         ListFooterComponent={ListHeader}
@@ -97,7 +89,7 @@ const HomeScreen = ({navigation}) => {
   );
 };
 
-export default HomeScreen;
+export default HomeScreenAdmin;
 
 const styles = StyleSheet.create({
   container: {

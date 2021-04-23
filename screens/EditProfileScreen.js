@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Platform,
   Alert,
+  ScrollView,
 } from 'react-native';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -161,119 +162,121 @@ const EditProfileScreen = () => {
   const fall = new Animated.Value(1);
 
   return (
-    <View style={styles.container}>
-      <BottomSheet
-        ref={bs}
-        snapPoints={[330, 0]}
-        renderContent={renderInner}
-        renderHeader={renderHeader}
-        initialSnap={1}
-        callbackNode={fall}
-        enabledGestureInteraction={true}
-      />
-      <Animated.View
-        style={{
-          margin: 20,
-          opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
-        }}>
-        <View style={{alignItems: 'center'}}>
-          <TouchableOpacity onPress={() => bs.current.snapTo(0)}>
-            <View
-              style={{
-                height: 100,
-                width: 100,
-                borderRadius: 15,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <ImageBackground
-                source={{
-                  uri: image
-                    ? image
-                    : userData
-                    ? userData.userImg ||
-                      'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'
-                    : 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
-                }}
-                style={{height: 100, width: 100}}
-                imageStyle={{borderRadius: 15}}>
-                <View
-                  style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <MaterialCommunityIcons
-                    name="camera"
-                    size={35}
-                    color="#fff"
+    <ScrollView>
+      <View style={styles.container}>
+        <BottomSheet
+          ref={bs}
+          snapPoints={[330, 0]}
+          renderContent={renderInner}
+          renderHeader={renderHeader}
+          initialSnap={1}
+          callbackNode={fall}
+          enabledGestureInteraction={true}
+        />
+        <Animated.View
+          style={{
+            margin: 20,
+            opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
+          }}>
+          <View style={{alignItems: 'center'}}>
+            <TouchableOpacity onPress={() => bs.current.snapTo(0)}>
+              <View
+                style={{
+                  height: 100,
+                  width: 100,
+                  borderRadius: 15,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <ImageBackground
+                  source={{
+                    uri: image
+                      ? image
+                      : userData
+                      ? userData.userImg ||
+                        'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'
+                      : 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
+                  }}
+                  style={{height: 100, width: 100}}
+                  imageStyle={{borderRadius: 15}}>
+                  <View
                     style={{
-                      opacity: 0.7,
-                      alignItems: 'center',
+                      flex: 1,
                       justifyContent: 'center',
-                      borderWidth: 1,
-                      borderColor: '#fff',
-                      borderRadius: 10,
-                    }}
-                  />
-                </View>
-              </ImageBackground>
-            </View>
-          </TouchableOpacity>
-          <Text style={{marginTop: 10, fontSize: 18, fontWeight: 'bold'}}>
-            {userData ? userData.uname : ''}
-          </Text>
-          {/* <Text>{user.uid}</Text> */}
-        </View>
+                      alignItems: 'center',
+                    }}>
+                    <MaterialCommunityIcons
+                      name="camera"
+                      size={35}
+                      color="#fff"
+                      style={{
+                        opacity: 0.7,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderWidth: 1,
+                        borderColor: '#fff',
+                        borderRadius: 10,
+                      }}
+                    />
+                  </View>
+                </ImageBackground>
+              </View>
+            </TouchableOpacity>
+            <Text style={{marginTop: 10, fontSize: 18, fontWeight: 'bold'}}>
+              {userData ? userData.uname : ''}
+            </Text>
+            <Text>{user.uid}</Text>
+          </View>
 
-        <View style={styles.action}>
-          <FontAwesome5 name="user" color="#333333" size={20} />
-          <TextInput
-            placeholder="Username"
-            placeholderTextColor="#666666"
-            autoCorrect={false}
-            value={userData ? userData.uname : ''}
-            onChangeText={txt => setUserData({...userData, uname: txt})}
-            style={styles.textInput}
-          />
-        </View>
-        <View style={styles.action}>
-          <FontAwesome5 name="teamspeak" color="#333333" size={20} />
-          <TextInput
-            placeholder="Team"
-            placeholderTextColor="#666666"
-            value={userData ? userData.tname : ''}
-            onChangeText={txt => setUserData({...userData, tname: txt})}
-            autoCorrect={false}
-            style={styles.textInput}
-          />
-        </View>
-        <View style={styles.action}>
-          <FontAwesome5 name="gamepad" color="#333333" size={20} />
-          <TextInput
-            placeholder="Game"
-            placeholderTextColor="#666666"
-            value={userData ? userData.gname : ''}
-            onChangeText={txt => setUserData({...userData, gname: txt})}
-            autoCorrect={false}
-            style={styles.textInput}
-          />
-        </View>
-        <View style={styles.action}>
-          <FontAwesome5 name="info-circle" color="#333333" size={20} />
-          <TextInput
-            placeholder="About Me"
-            placeholderTextColor="#666666"
-            value={userData ? userData.about : ''}
-            onChangeText={txt => setUserData({...userData, about: txt})}
-            autoCorrect={true}
-            style={[styles.textInput, {height: 40}]}
-          />
-        </View>
-        <FormButton buttonTitle="Update" onPress={handleUpdate} />
-        <FormButton buttonTitle="Logout" onPress={() => logout()} />
-      </Animated.View>
-    </View>
+          <View style={styles.action}>
+            <FontAwesome5 name="user" color="#333333" size={20} />
+            <TextInput
+              placeholder="Username"
+              placeholderTextColor="#666666"
+              autoCorrect={false}
+              value={userData ? userData.uname : ''}
+              onChangeText={txt => setUserData({...userData, uname: txt})}
+              style={styles.textInput}
+            />
+          </View>
+          <View style={styles.action}>
+            <FontAwesome5 name="teamspeak" color="#333333" size={20} />
+            <TextInput
+              placeholder="Team"
+              placeholderTextColor="#666666"
+              value={userData ? userData.tname : ''}
+              onChangeText={txt => setUserData({...userData, tname: txt})}
+              autoCorrect={false}
+              style={styles.textInput}
+            />
+          </View>
+          <View style={styles.action}>
+            <FontAwesome5 name="gamepad" color="#333333" size={20} />
+            <TextInput
+              placeholder="Game"
+              placeholderTextColor="#666666"
+              value={userData ? userData.gname : ''}
+              onChangeText={txt => setUserData({...userData, gname: txt})}
+              autoCorrect={false}
+              style={styles.textInput}
+            />
+          </View>
+          <View style={styles.action}>
+            <FontAwesome5 name="info-circle" color="#333333" size={20} />
+            <TextInput
+              placeholder="About Me"
+              placeholderTextColor="#666666"
+              value={userData ? userData.about : ''}
+              onChangeText={txt => setUserData({...userData, about: txt})}
+              autoCorrect={true}
+              style={[styles.textInput, {height: 40}]}
+            />
+          </View>
+          <FormButton buttonTitle="Update" onPress={handleUpdate} />
+          <FormButton buttonTitle="Logout" onPress={() => logout()} />
+        </Animated.View>
+      </View>
+    </ScrollView>
   );
 };
 

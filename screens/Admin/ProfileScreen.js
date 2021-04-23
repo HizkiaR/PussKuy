@@ -157,6 +157,15 @@ const ProfileScreen = ({navigation, route}) => {
                   <Text style={styles.userBtnTxt}>Portofolio</Text>
                 </TouchableOpacity>
               ))}
+              {userData.map(item => (
+                <TouchableOpacity
+                  style={styles.userBtn}
+                  onPress={() => {
+                    navigation.navigate('EditProfile');
+                  }}>
+                  <Text style={styles.userBtnTxt}>Edit Profile</Text>
+                </TouchableOpacity>
+              ))}
             </>
           ) : (
             <>

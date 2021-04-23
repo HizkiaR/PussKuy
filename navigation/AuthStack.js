@@ -4,8 +4,10 @@ import {createStackNavigator} from '@react-navigation/stack';
 import SignupScreen from '../screens/SignupScreen';
 import LoginScreen from '../screens/LoginScreen';
 import StartScreen from '../screens/StartScreen';
-import LoginScreenAdmin from '../screens/LoginScrennAdmin';
-import SignupAdmin from '../screens/SignupAdmin';
+import LoginScreenAdmin from '../screens/Admin/LoginScreenAdmin';
+// import SignupAdmin from '../screens/SignupAdmin';
+import AppStackAdmin from './AppStackAdmin';
+import AppStackGuest from './AppStackGuest';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
@@ -87,7 +89,7 @@ const AuthStack = () => {
       />
       <Stack.Screen
         name="Guest"
-        component={StartScreen}
+        component={AppStackGuest}
         options={{header: () => null}}
       />
       <Stack.Screen
@@ -107,16 +109,19 @@ const AuthStack = () => {
                 size={25}
                 backgroundColor="#f9fafd"
                 color="#C43131"
-                onPress={() => navigation.navigate('Login')}
+                onPress={() => {
+                  navigation.navigate('Login');
+                }}
               />
             </View>
           ),
         })}
       />
       <Stack.Screen
-        name="SignupAdmin"
-        component={SignupAdmin}
+        name="HomeScreenAdmin"
+        component={AppStackAdmin}
         options={({navigation}) => ({
+          headerShown: false,
           title: '',
           headerStyle: {
             backgroundColor: '#f9fafd',
@@ -130,7 +135,31 @@ const AuthStack = () => {
                 size={25}
                 backgroundColor="#f9fafd"
                 color="#C43131"
-                onPress={() => navigation.navigate('Login')}
+                onPress={() => navigation.navigate('Start')}
+              />
+            </View>
+          ),
+        })}
+      />
+      <Stack.Screen
+        name="HomeScreenGuest"
+        component={AppStackGuest}
+        options={({navigation}) => ({
+          headerShown: false,
+          title: '',
+          headerStyle: {
+            backgroundColor: '#f9fafd',
+            shadowColor: '#C43131',
+            elevation: 0,
+          },
+          headerLeft: () => (
+            <View style={{marginLeft: 10}}>
+              <FontAwesome.Button
+                name="arrow-left"
+                size={25}
+                backgroundColor="#f9fafd"
+                color="#C43131"
+                onPress={() => navigation.navigate('Start')}
               />
             </View>
           ),

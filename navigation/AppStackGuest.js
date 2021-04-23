@@ -6,22 +6,67 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import HomeScreenAdmin from '../screens/Admin/HomeScreenAdmin';
-import EditProfileScreen from '../screens/EditProfileScreen';
-import SearchScreen from '../screens/SearchScreen';
-import NewsScreen from '../screens/NewsScreen';
+import HomeScreenGuest from '../screens/Guest/HomeScreenGuest';
+import SearchScreen from '../screens/Guest/SearchScreenGuest';
+import NewsScreen from '../screens/Guest/NewsScreen';
 import Portofolio from '../screens/Portofolio';
-import NewsDetail from '../screens/NewsDetail';
+import NewsDetail from '../screens/Guest/NewsDetail';
 import ProfileScreen from '../screens/ProfileScreen';
+import CategoryScreen from '../screens/CategoryScreen';
+import CategoryDetailScreen from '../screens/CategoryDetailScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
+const CategoryStack = ({navigation}) => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="CategoryScreen"
+      component={CategoryScreen}
+      options={{
+        headerTitle: 'Category',
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          color: '#C43131',
+          fontWeight: 'bold',
+          fontSize: 25,
+        },
+        headerStyle: {
+          shadowColor: '#fff',
+          elevation: 0,
+        },
+      }}
+    />
+    <Stack.Screen
+      name="CategoryDetailScreen"
+      component={CategoryDetailScreen}
+      options={{
+        title: 'Tournament',
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          color: '#C43131',
+          fontWeight: 'bold',
+          fontSize: 22,
+        },
+        headerStyle: {
+          elevation: 0,
+        },
+        headerBackTitleVisible: false,
+        headerBackImage: () => (
+          <View style={{marginLeft: 15}}>
+            <Ionicons name="arrow-back" size={25} color="#C43131" />
+          </View>
+        ),
+      }}
+    />
+  </Stack.Navigator>
+);
+
 const FeedStack = ({navigation}) => (
   <Stack.Navigator>
     <Stack.Screen
-      name="Admin"
-      component={HomeScreenAdmin}
+      name="Guest"
+      component={HomeScreenGuest}
       options={{
         headerTitleAlign: 'center',
         headerTitleStyle: {
@@ -40,30 +85,6 @@ const FeedStack = ({navigation}) => (
       component={ProfileScreen}
       options={{
         title: 'Profile',
-        headerTitleAlign: 'center',
-        headerTitleStyle: {
-          color: '#C43131',
-          fontWeight: 'bold',
-          fontSize: 22,
-        },
-        headerStyle: {
-          backgroundColor: '#fff',
-          shadowColor: '#fff',
-          elevation: 0,
-        },
-        headerBackTitleVisible: false,
-        headerBackImage: () => (
-          <View style={{marginLeft: 15}}>
-            <Ionicons name="arrow-back" size={25} color="#C43131" />
-          </View>
-        ),
-      }}
-    />
-    <Stack.Screen
-      name="HomeEditProfile"
-      component={EditProfileScreen}
-      options={{
-        title: 'Edit Profile',
         headerTitleAlign: 'center',
         headerTitleStyle: {
           color: '#C43131',
@@ -189,76 +210,7 @@ const SearchStack = ({navigation}) => (
   </Stack.Navigator>
 );
 
-const ProfileStack = ({navigation}) => (
-  <Stack.Navigator>
-    <Stack.Screen
-      name="Profile"
-      component={ProfileScreen}
-      options={{
-        headerTitleAlign: 'center',
-        headerTitleStyle: {
-          color: '#C43131',
-          fontWeight: 'bold',
-          fontSize: 25,
-        },
-        headerStyle: {
-          shadowColor: '#fff',
-          elevation: 0,
-        },
-      }}
-    />
-    <Stack.Screen
-      name="EditProfile"
-      component={EditProfileScreen}
-      options={{
-        headerTitle: 'Edit Profile',
-        headerBackTitleVisible: false,
-        headerTitleAlign: 'center',
-        headerTitleStyle: {
-          color: '#C43131',
-          fontWeight: 'bold',
-          fontSize: 22,
-        },
-        headerStyle: {
-          backgroundColor: '#fff',
-          shadowColor: '#fff',
-          elevation: 0,
-        },
-        headerBackImage: () => (
-          <View style={{marginLeft: 15}}>
-            <Ionicons name="arrow-back" size={25} color="#C43131" />
-          </View>
-        ),
-      }}
-    />
-    <Stack.Screen
-      name="Portofolio"
-      component={Portofolio}
-      options={{
-        headerTitle: 'Portofolio',
-        headerBackTitleVisible: false,
-        headerTitleAlign: 'center',
-        headerTitleStyle: {
-          color: '#C43131',
-          fontWeight: 'bold',
-          fontSize: 22,
-        },
-        headerStyle: {
-          backgroundColor: '#fff',
-          shadowColor: '#fff',
-          elevation: 0,
-        },
-        headerBackImage: () => (
-          <View style={{marginLeft: 3}}>
-            <Ionicons name="arrow-back" size={25} color="#C43131" />
-          </View>
-        ),
-      }}
-    />
-  </Stack.Navigator>
-);
-
-const AppStackAdmin = () => {
+const AppStack = () => {
   const getTabBarVisibility = route => {
     const routeName = route.state
       ? route.state.routes[route.state.index].name
@@ -290,6 +242,16 @@ const AppStackAdmin = () => {
         })}
       />
       <Tab.Screen
+        name="Category"
+        component={CategoryStack}
+        options={({route}) => ({
+          tabBarLabel: 'Category',
+          tabBarIcon: ({color, size}) => (
+            <MaterialCommunityIcons name="compass" color={color} size={size} />
+          ),
+        })}
+      />
+      <Tab.Screen
         name="News"
         component={NewsStack}
         options={({route}) => ({
@@ -313,4 +275,4 @@ const AppStackAdmin = () => {
   );
 };
 
-export default AppStackAdmin;
+export default AppStack;

@@ -6,16 +6,17 @@ import {
   StyleSheet,
   FlatList,
   SafeAreaView,
-  Alert,
   RefreshControl,
+  Alert,
 } from 'react-native';
 
-import PostCard from '../components/PostCard';
+import PostCardGuest from '../../components/PostCardGuest';
 import firestore from '@react-native-firebase/firestore';
 
 const HomeScreen = ({navigation}) => {
   const [posts, setPosts] = useState(null);
   const [loading, setLoading] = useState(true);
+
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = useCallback(() => {
@@ -79,7 +80,7 @@ const HomeScreen = ({navigation}) => {
         renderItem={({item}) => {
           if (item.status == true) {
             return (
-              <PostCard
+              <PostCardGuest
                 item={item}
                 onPress={() =>
                   navigation.navigate('HomeProfile', {userId: item.userId})

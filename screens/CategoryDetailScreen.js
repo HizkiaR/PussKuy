@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   ScrollView,
@@ -7,22 +7,16 @@ import {
   FlatList,
   SafeAreaView,
   Alert,
-  RefreshControl,
 } from 'react-native';
 
 import PostCard from '../components/PostCard';
 import firestore from '@react-native-firebase/firestore';
+import {createIconSetFromFontello} from 'react-native-vector-icons';
 
-const HomeScreen = ({navigation}) => {
+const CategoryDetailScreen = ({navigation, route}) => {
   const [posts, setPosts] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
-
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    fetchPosts();
-    setRefreshing(false);
-  }, []);
+  const {cat} = route.params;
 
   const fetchPosts = async () => {
     try {
@@ -35,7 +29,14 @@ const HomeScreen = ({navigation}) => {
           // console.log('Total Posts: ', querySnapshot.size);
 
           querySnapshot.forEach(doc => {
-            const {userId, post, postImg, postTime, status} = doc.data();
+            const {
+              userId,
+              post,
+              postImg,
+              postTime,
+              status,
+              category,
+            } = doc.data();
             list.push({
               id: doc.id,
               userId,
@@ -46,6 +47,7 @@ const HomeScreen = ({navigation}) => {
               post,
               postImg,
               status,
+              category,
             });
           });
         });
@@ -64,6 +66,7 @@ const HomeScreen = ({navigation}) => {
 
   useEffect(() => {
     fetchPosts();
+    // console.log(cat)
   }, []);
 
   const ListHeader = () => {
@@ -73,11 +76,8 @@ const HomeScreen = ({navigation}) => {
     <View style={styles.container}>
       <FlatList
         data={posts}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
         renderItem={({item}) => {
-          if (item.status == true) {
+          if (item.status == true && item.category == `${cat}`) {
             return (
               <PostCard
                 item={item}
@@ -97,7 +97,7 @@ const HomeScreen = ({navigation}) => {
   );
 };
 
-export default HomeScreen;
+export default CategoryDetailScreen;
 
 const styles = StyleSheet.create({
   container: {
